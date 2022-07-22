@@ -1,0 +1,31 @@
+*Identifier le bureau (Office) qui accueille le plus d’employés
+	SOLUTION :
+SELECT employees.officeCode, offices.city, COUNT(employees.officeCode) Office_Count
+FROM employees
+JOIN offices
+ON employees.officeCode = offices.officeCode
+GROUP BY officeCode
+ORDER BY Office_Count DESC
+LIMIT 1;
+
+* Identifier le nombre de produit vendus mois par mois
+	SOLUTION :
+SELECT     YEAR(orderdate) order_year,    MONTH(orderdate) order_month,    SUM(quantityordered) total_sold, status
+FROM    orders
+JOIN    orderdetails
+ON orders.ordernumber = orderdetails.ordernumber
+GROUP BY order_month , order_year
+HAVING status LIKE 'shipped'
+ORDER BY order_month;
+
+* Identifier le top 3 des meilleurs commerciaux. Il s’agit des employés qui incitent le plus les clients à dépenser
+	SOLUTION :
+SELECT salesRepEpemployeeNumber, firstName, lastName, COUNT(payments.customerNumber) totalCustomers
+FROM payments
+JOIN customers
+ON payments.customerNumber = customers.customerNumber
+JOIN employees
+ON employeeNumber = salesRepEmployeeNumber
+GROUP BY salesRepEmployeeNumber
+ORDER BY totalCustomers DESC
+LIMIT 3;
